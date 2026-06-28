@@ -1,0 +1,19 @@
+Shader test;
+test.create_compute_shader("shaders/test.glsl");
+
+unsigned int ssbo;
+glGenBuffers(1, &ssbo);
+glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+
+int data = 1;
+std::cout << data << "\n";
+glBufferData(GL_SHADER_STORAGE_BUFFER, 16, &data, GL_DYNAMIC_DRAW);
+glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
+
+test.compute_execute(1,1,1);
+glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+data = *((int*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 16, GL_MAP_READ_BIT));
+glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+
+std::cout << data << "\n";
