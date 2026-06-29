@@ -1,20 +1,19 @@
-#version 460 core
+#version 430 core
 
 layout (location = 0) in int data;
 
-out uvec2 stretch;
-out uint id;
+flat out uvec2 stretch;
+flat out uint id;
 
 void main() {
-	// 31 is 11111 binary mask
-	uint x = data & 0x1f;
-	uint y = (data >> 5) & 0x1f;
-	uint z = (data >> 10) & 0x1f;
+	uint x = (data >> 0u) & 0x1Fu;
+	uint y = (data >> 5u) & 0x1Fu;
+	uint z = (data >> 10u) & 0x1Fu;
 
-	stretch.x = (data >> 15) & 0x1f;
-	stretch.y = (data >> 20) & 0x1f;
+	stretch.x = (data >> 15u) & 0x1Fu;
+	stretch.y = (data >> 20u) & 0x1Fu;
 	
-	id = (data >> 25) & 0x7f;
+	id = (data >> 25u) & 0x7Fu;
 	
-	gl_Position = vec4(float(x), float(y), float(z), 1.0f);
+	gl_Position = vec4(float(x)/31.0, float(y)/31.0, float(z)/31.0, 1.0f);
 }

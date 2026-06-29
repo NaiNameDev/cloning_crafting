@@ -19,18 +19,18 @@ typedef struct {
 } square_t;
 
 typedef struct {
-	std::vector<square_t> squares;
+	std::vector<uint32_t> raw_squares;
 
 	unsigned int facing: 4;
 } chunk_part_t;
 
 typedef struct {
 	/*
-	 * X+ 0  xyz
+	 * X+ 0  x yz
 	 * X- 1  
-	 * Y+ 2  yzx
+	 * Y+ 2  y zx
 	 * Y- 3  
-	 * Z+ 4  zyx
+	 * Z+ 4  z yx
 	 * Z- 5  
 	 * chunk_parts scheme
 	 */
@@ -63,6 +63,7 @@ public:
 	unsigned int half_z_dist;
 	int center_x; int center_y; int center_z;
 
+	long int squares_cnt;
 	std::vector<chunk_t> loaded_chunks; // with sizeof  hxd * hyd * hzd
 	std::vector<chunk_changes_t> changes;
 

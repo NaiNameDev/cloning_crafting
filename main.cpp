@@ -57,7 +57,6 @@ int main() {
 
 	glm::mat4 proj = glm::perspective(glm::radians(FOV), WIDTH / HEIGHT, 0.1f, 100.0f);
 	glm::mat4 view = glm::mat4(1.0f);
-	glm::mat4 modl = glm::mat4(1.0f);
 
 	Shader world_shader;
 	world_shader.init_shader_program();
@@ -68,14 +67,13 @@ int main() {
 
 	World test(glm::vec3(0,0,0), 0);
 	test.generate_world_mesh(glm::vec3(0,0,0));
-
 	test.prepare_buffers();
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		world_shader.execute();
-		world_shader.set_uniform("fin_mat", proj * view * modl);
+		world_shader.set_uniform("fin_mat", proj * view);
 		world_shader.set_uniform("utime", (float)(glfwGetTime()));
 		test.draw();
 
